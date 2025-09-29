@@ -1,14 +1,25 @@
-let color = document.body;
 
-function change_color(q){
-    color.style.backgroundColor = q
-}
 
-function random_color(){
-    let col1 = Math.ceil(Math.random() * 255);
-    let col2 = Math.ceil(Math.random() * 255);
-    let col3 = Math.ceil(Math.random() * 255);
-    color.style.backgroundColor = `rgb(${col1}, ${col2}, ${col3})`;
+
+function addTask(){
+    let task = document.createElement('div');
+    taskList.append(task);
+
+    let checkTask = document.createElement('input')
+    let taskText = document.createElement('p')
+    let editTask = document.createElement('button')
+    let deleteTask = document.createElement('button')
+
+    checkTask.type = 'checkbox'
+    taskText.textContent = taskToAdd.value;
+    taskText.textContent = 'Edit'
+    deleteTask.textContent = 'Delete'
+
+    taskToAdd.value = ' '
+    saveToAdd()
 }
+addButton.addEventListener('click', add)
+
+
 
 
