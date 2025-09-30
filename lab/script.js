@@ -1,64 +1,88 @@
-let clearDataButton = document.getElementById('clearData')
-let inputToList = document.getElementById('input_to_list')
-let addButton = document.getElementById('addButton')
-let tasksList = document.getElementById('tasks_list')
+let clearDataButton = document.getElementById('clearData');
+let inputToList = document.getElementById('input_to_list');
+let addButton = document.getElementById('addButton');
+let tasksList = document.getElementById('tasks_list');
 
 function addTask() {
+    if (inputToList.value.trim() === '') return;
+
     let task = document.createElement('div');
-    tasksList.append(task);
+    task.className = 'task';
 
     let check = document.createElement('input');
     check.type = 'checkbox';
-    task.append(check);
+    task.appendChild(check);
 
     let taskText = document.createElement('p');
     taskText.textContent = inputToList.value;
-    task.append(taskText);
+    task.appendChild(taskText);
 
     let deleteButton = document.createElement('button');
     deleteButton.style.backgroundColor = 'turquoise';
     deleteButton.textContent = "Удалить";
-    task.append(deleteButton);
+    task.appendChild(deleteButton);
 
     let editButton = document.createElement('button');
     editButton.style.backgroundColor = 'turquoise';
     editButton.textContent = "Редактировать";
-    task.append(editButton);
+    task.appendChild(editButton);
 
+    tasksList.appendChild(task);
     inputToList.value = '';
 
     savedTask();
 }
+
 addButton.addEventListener('click', addTask);
 
-function changeTask(e){
-    if(e.target.tagName === 'INPUT'){
-        e.target.parentElement.classList.toggle('checked');
-        savedTask()
+function changeTask(e) {
+    let task = e.target.closest('.task');
+    if (!task) return;
+
+    if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
+        task.classList.toggle('checked');
+        savedTask();
     } else if (e.target.tagName === 'BUTTON' && e.target.textContent === 'Удалить') {
-        e.target.parentElement.remove()
-        savedTask()
+        task.remove();
+        savedTask();
     } else if (e.target.tagName === 'BUTTON' && e.target.textContent === 'Редактировать') {
-        let new_input = document.createElement('input')
-        e.target.parentElement.textContent = new_input.value
-        new_input.remove()
-        savedTask()
+        let taskText = task.querySelector('p');
+        let newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.value = taskText.textContent;
+
+        task.replaceChild(newInput, taskText);
+        e.target.textContent = 'Сохранить';
+    } else if (e.target.tagName === 'BUTTON' && e.target.textContent === 'Сохранить') {
+        let newInput = task.querySelector('input[type="text"]');
+        let newText = document.createElement('p');
+        newText.textContent = newInput.value;
+
+        task.replaceChild(newText, newInput);
+        e.target.textContent = 'Редактировать';
+        savedTask();
     }
 }
+
 tasksList.addEventListener('click', changeTask);
 
-
-
-function savedTask(){
+function savedTask() {
     localStorage.setItem('data', tasksList.innerHTML);
 }
-function showTask(){    
-    tasksList.innerHTML = localStorage.getItem('data')
+
+function showTask() {
+    let saved = localStorage.getItem('data');
+    if (saved) {
+        tasksList.innerHTML = saved;
+    }
 }
+
 function clearData() {
     localStorage.clear();
+    tasksList.innerHTML = '';
 }
-clearDataButton.addEventListener('click', clearData)
 
-showTask()
+clearDataButton.addEventListener('click', clearData);
+
+showTask();
 
