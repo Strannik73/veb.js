@@ -1,0 +1,32 @@
+.body{
+    background-image: url('https://veryimportantlot.com/cache/thumbed/750x0/e06da217d6c0398be99283b0f037d965_width_q60.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+.div{
+    display: flex;
+    justify-content: center;/* центрирование по гориз */
+    align-items: center;/* центрирование по вертикали */
+    height: 30px; 
+
+    border: none;
+}
+
+#input_to_list{
+    background-color: rgb(180, 212, 212);
+}
+#addButton{
+    background-color: rgb(67, 136, 228);
+}
+#clearData{
+    background-color: rgb(56, 182, 231);
+}
+
+#tasks_list {
+    display: flex;
+    flex-direction: column; /* элементы друг под другом */
+    justify-content: center;
+    align-items: center;
+    
+}
